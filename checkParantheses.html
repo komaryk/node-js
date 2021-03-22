@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+
+		/**
+		* @param {string} s
+		* @return {boolean}
+		*/
+
+		//create a map which relates left and right parentheses
+		var map = {
+		  '(': ')',
+		  '[': ']',
+		  '{': '}'
+		}
+
+		var checkParentheses = function(s) {
+			var stack = [];
+
+			for (var i = 0; i < s.length; i++) {
+				var item = s[i];
+
+				if (map[item]) {
+					//if item is a value, add it to the stack
+					stack.push(map[item]);
+				} else {
+					if (item === stack[stack.length - 1]) {
+					    //if item equal to the last element of the stack, parantheses have been closed
+						stack.pop();
+					}
+				}
+			}
+			//return the stack when its elements have been exhausted
+			return stack.length === 0;
+		};
+
+		console.log(checkParentheses('--()--'));
+		console.log(checkParentheses('-a]--['));
+		console.log(checkParentheses('dsa{vsfs{ad'));
+		console.log(checkParentheses('j78(g5b]uyg'));
+		console.log(checkParentheses(',m{i987y}hj'));
+		console.log(checkParentheses('dsa[3ed---:]::'));
+	</script>
+	
+</body>
+</html>
