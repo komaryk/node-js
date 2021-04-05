@@ -56,17 +56,21 @@ const getUsersBookPromisified = util.promisify(database.getUsersBook);
 const buyBookPromisified = util.promisify(database.buyBook);
 
 const buyBookForUserAsync = async (bookId, userId) => {
-    const user = await getUserPromisified(userId);
-    if (!user) {return}
-    const userBooks = await getUsersBookPromisified(user.id);
-    if (userBooks.includes(bookId)) {
-        throw new Error(`User already has book with id=${bookId}`);
-    }
-    await buyBookPromisified(bookId);
+	try {
+		const user = await getUserPromisified(userId);
+		if (!user) {return}
+		const userBooks = await getUsersBookPromisified(user.id);
+		if (userBooks.includes(bookId)) {
+			throw new Error(`User already has book with id=${bookId}`);
+		}
+		await buyBookPromisified(bookId);
+	} catch (err) {
+		console.log(err);
+	}
 }
 
-buyBookForUserAsync(1,1).catch(err => { console.log(err) });
-buyBookForUserAsync(1,2).catch(err => { console.log(err) });
-buyBookForUserAsync(3,2).catch(err => { console.log(err) });
-buyBookForUserAsync(5,2).catch(err => { console.log(err) });
-buyBookForUserAsync(1,3).catch(err => { console.log(err) });
+buyBookForUserAsync(1,1);
+buyBookForUserAsync(1,2);
+buyBookForUserAsync(3,2);
+buyBookForUserAsync(5,2);
+buyBookForUserAsync(1,3);
